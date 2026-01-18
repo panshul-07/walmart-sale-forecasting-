@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import os
+import io
 
 # ---------------- PAGE CONFIG ----------------
 st.set_page_config(
@@ -12,28 +12,34 @@ st.set_page_config(
 
 st.title("Walmart Demand Forecasting")
 
-# ---------------- DATA LOADING (DEPLOY-SAFE) ----------------
+# ---------------- DATA LOADING (SECRETS-BASED) ----------------
 @st.cache_data
 def load_data():
-    csv_path = "store_history.csv"
-
-    if not os.path.exists(csv_path):
+    # 1. Check if the secret exists
+    if "csv_data" not in st.secrets:
         st.error(
-            "store_history.csv not found.\n\n"
-            "• Local: place CSV in project root\n"
-            "• Streamlit Cloud: upload CSV via File Manager",
+            "Data not found in Streamlit Secrets! Please add it in the app settings.",
             icon="🚨"
         )
         return None
 
-    df = pd.read_csv(csv_path)
-    df["Date"] = pd.to_datetime(df["Date"])
-    return df
-
+    try:
+        # 2. Get the string from secrets
+        raw_csv_string = st.secrets["csv_data"]
+        
+        # 3. Convert string to a DataFrame using io.StringIO
+        # dayfirst=True is crucial for dates like 05-02-2010
+        df = pd.read_csv(io.StringIO(raw_csv_string))
+        df.columns = df.columns.str.strip()
+        df["Date"] = pd.to_datetime(df["Date"], dayfirst=True)
+        
+        return df
+    except Exception as e:
+        st.error(f"Error parsing CSV from Secrets: {e}")
+        return None
 
 df = load_data()
 
-# 🚨 STOP APP CLEANLY IF DATA IS MISSING
 if df is None:
     st.stop()
 
