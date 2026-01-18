@@ -1,19 +1,15 @@
-# Python
-__pycache__/
-*.pyc
-
-# Virtual environments
-venv/
-.env/
-
-# Data & outputs (ignored on purpose)
+# Data files
+*.csv
 data/
 results/
 pp/
-Walmart_Project_backup/
 
-# Model artifacts (optional: ignore if large)
-*.pkl
+# Environments
+venv/
+.env
 
-# OS
+# OS / editor
 .DS_Store
+__pycache__/
+.ipynb_checkpoints/
+
