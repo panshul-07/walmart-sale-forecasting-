@@ -7,7 +7,7 @@ import io
 # ---------------- PAGE CONFIG ----------------
 st.set_page_config(
     page_title="Walmart Demand Forecasting",
-    layout="wide",
+    layout="centered",
     initial_sidebar_state="expanded"
 )
 
@@ -17,8 +17,7 @@ st.markdown(
     <style>
         .kpi-card {
             background-color: rgba(0,0,0,0.03);
-            padding: 20px;
-            border-radius: 14px;
+            padding: 10px;
             border: 1px solid rgba(0,0,0,0.1);
         }
         .kpi-title {
@@ -28,9 +27,6 @@ st.markdown(
         .kpi-value {
             font-size: 32px;
             font-weight: 600;
-        }
-        .section {
-            margin-top: 40px;
         }
     </style>
     """,
@@ -102,23 +98,23 @@ k1, k2, k3 = st.columns(3)
 
 with k1:
     st.markdown(
-        f"<div class='kpi-card'><div class='kpi-title'>Predicted Weekly Sales</div>"
-        f"<div class='kpi-value'>${predicted_sales:,.0f}</div></div>",
+        f"<div class='kpi-title'>Predicted Weekly Sales</div>"
+        f"<div class='kpi-value'>${predicted_sales:,.0f}</div>",
         unsafe_allow_html=True
     )
 
 with k2:
     st.markdown(
-        f"<div class='kpi-card'><div class='kpi-title'>Average Store Sales</div>"
-        f"<div class='kpi-value'>${avg_sales:,.0f}</div></div>",
+        f"<div class='kpi-title'>Average Store Sales</div>"
+        f"<div class='kpi-value'>${avg_sales:,.0f}</div>",
         unsafe_allow_html=True
     )
 
 with k3:
     delta = ((predicted_sales - avg_sales) / avg_sales) * 100
     st.markdown(
-        f"<div class='kpi-card'><div class='kpi-title'>Change vs Average</div>"
-        f"<div class='kpi-value'>{delta:.2f}%</div></div>",
+        f"<div class='kpi-title'>Change vs Average</div>"
+        f"<div class='kpi-value'>{delta:.2f}%</div>",
         unsafe_allow_html=True
     )
 
