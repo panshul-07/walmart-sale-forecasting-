@@ -41,7 +41,7 @@ st.title("Walmart Demand Forecasting")
 
 @st.cache_data
 def load_data():
-    if os.getenv("STREAMLIT_CLOUD") == "1":
+    if "csv_data" in st.secrets:
         df = pd.read_csv(io.StringIO(st.secrets["csv_data"]))
     else:
         df = pd.read_csv("data/raw/store_history.csv")
@@ -49,10 +49,6 @@ def load_data():
     df.columns = df.columns.str.strip()
     df["Date"] = pd.to_datetime(df["Date"], dayfirst=True)
     return df
-
-
-df = load_data()
-
 # ---------------- SIDEBAR ----------------
 st.sidebar.header("Input Parameters")
 
